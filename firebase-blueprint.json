@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Public profile and customization for a player",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar": {
+          "type": "object",
+          "properties": {
+            "color": { "type": "string" },
+            "hat": { "type": "string" }
+          }
+        },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "avatar"]
+    },
+    "Room": {
+      "title": "Game Room",
+      "description": "A virtual space where players meet",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "type": { "type": "string", "enum": ["lobby", "game", "social"] }
+      },
+      "required": ["id", "name", "type"]
+    },
+    "PlayerState": {
+      "title": "Player Presence State",
+      "description": "Real-time position and orientation of a player in a room",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "username": { "type": "string" },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          }
+        },
+        "rotation": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "number" },
+            "y": { "type": "number" },
+            "z": { "type": "number" }
+          }
+        },
+        "avatar": { "type": "object" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "position", "rotation", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "Chat Message",
+      "description": "A message sent in a room chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "senderName", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Global user profiles"
+    },
+    "/rooms/{roomId}": {
+      "schema": "Room",
+      "description": "Room definitions"
+    },
+    "/rooms/{roomId}/players/{userId}": {
+      "schema": "PlayerState",
+      "description": "Real-time presence of players within a specific room"
+    },
+    "/rooms/{roomId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Chat log for a room"
+    }
+  }
+}

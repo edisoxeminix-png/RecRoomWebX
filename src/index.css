@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --color-rec-orange: #FF6D00;
+  --color-rec-blue: #00AEEF;
+  --color-rec-purple: #9C27B0;
+  --color-rec-slate-dark: #0F172A;
+  --color-rec-slate-sidebar: #1E293B;
+  
+  --shadow-card: 0 8px 0 rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+@layer utilities {
+  .rec-card-shadow {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .rec-btn-hover:hover {
+    transform: translateY(2px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .rec-font-display {
+    @apply font-black uppercase italic tracking-tighter;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-[#0f172a] overflow-hidden;
+  }
+}
