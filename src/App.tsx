@@ -34,7 +34,7 @@ export default function App() {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   const { 
-    position, rotation, update, isSwitchMode, plusButtonPressed, gamepadAxes,
+    position, teleport, rotation, setRotation, update, isSwitchMode, plusButtonPressed, gamepadAxes,
     handLOffset, handROffset, gripL, gripR, isLHandActive, isRHandActive
   } = usePlayerMovement();
 
@@ -240,7 +240,7 @@ export default function App() {
       <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
         <div className="flex flex-col items-center gap-6">
           <div className="w-16 h-16 border-4 border-rec-blue border-t-transparent rounded-full animate-spin" />
-          <p className="text-white font-black italic tracking-tighter uppercase opacity-50">Sincronizando con Rec Room...</p>
+          <p className="text-white font-black italic tracking-tighter uppercase opacity-50">Sincronizando con RecRoomWeb...</p>
         </div>
       </div>
     );
@@ -336,9 +336,9 @@ export default function App() {
         >
           <div className="mb-12">
             <h1 className="text-7xl font-black text-white italic tracking-tighter uppercase mb-2 drop-shadow-2xl">
-              REC ROOM
+              RECROOMWEB
             </h1>
-            <p className="text-rec-blue font-black tracking-[0.5em] uppercase text-sm italic">WEB EDITION</p>
+            <p className="text-rec-blue font-black tracking-[0.5em] uppercase text-sm italic">EDITION</p>
           </div>
 
           <div className="space-y-8">
@@ -535,6 +535,7 @@ export default function App() {
                 auth.signOut();
                 window.location.reload();
               }}
+              onTeleport={(pos) => teleport(pos)}
             />
           </motion.div>
         )}

@@ -71,6 +71,13 @@ export function usePlayerMovement() {
     return () => window.removeEventListener('devicemotion', handleMotion);
   }, []);
 
+  const teleportRequestRef = useRef<[number, number, number] | null>(null);
+
+  const teleport = useCallback((pos: [number, number, number]) => {
+    teleportRequestRef.current = pos;
+    setPosition(pos);
+  }, []);
+
   const update = useCallback(() => {
     // Gamepad Input
     const gamepads = navigator.getGamepads();
@@ -168,7 +175,15 @@ export function usePlayerMovement() {
     });
 
     setPosition(prev => {
-      const next = [...prev] as [number, number, number];
+      // If a teleport was requested, start from there
+      let current = [...prev] as [number, number, number];
+      if (teleportRequestRef.current) {
+        current = teleportRequestRef.current;
+        teleportRequestRef.current = null;
+        return current; // Don't apply movement on the teleport frame
+      }
+
+      const next = current;
       const curRot = rotationRef.current[1];
       
       const forward = new THREE.Vector3(0, 0, -1).applyAxisAngle(new THREE.Vector3(0, 1, 0), curRot);
@@ -225,7 +240,10 @@ export function usePlayerMovement() {
 
   return { 
     position, 
+    setPosition,
+    teleport,
     rotation, 
+    setRotation,
     update, 
     isSwitchMode, 
     plusButtonPressed, 

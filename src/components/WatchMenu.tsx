@@ -21,7 +21,8 @@ import {
   Trophy,
   Coffee,
   Coins,
-  Settings
+  Settings,
+  Cpu
 } from 'lucide-react';
 
 interface MenuButtonProps {
@@ -56,15 +57,17 @@ export function WatchMenu({
   onOpenGames, 
   onOpenAvatar, 
   onOpenMakerPen, 
-  onLogout 
+  onLogout,
+  onTeleport
 }: { 
   onClose: () => void, 
   onOpenGames: () => void, 
   onOpenAvatar: () => void, 
   onOpenMakerPen: () => void, 
-  onLogout: () => void 
+  onLogout: () => void,
+  onTeleport: (pos: [number, number, number]) => void
 }) {
-  const [activeTab, setActiveTab] = useState<'main' | 'events' | 'people' | 'store' | 'backpack' | 'clubs' | 'rec-center' | 'this-room' | 'messages' | 'challenges'>('main');
+  const [activeTab, setActiveTab] = useState<'main' | 'events' | 'people' | 'store' | 'backpack' | 'clubs' | 'rec-center' | 'this-room' | 'messages' | 'challenges' | 'mods'>('main');
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -209,8 +212,8 @@ export function WatchMenu({
           <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
              <Building2 size={120} className="text-rec-orange mb-6" />
              <h3 className="text-5xl font-black text-slate-800 italic uppercase">Going to Rec Center?</h3>
-             <p className="text-slate-400 font-bold max-w-md mt-4 mb-8 uppercase tracking-widest text-sm">Join hundreds of other players in the social hub of Rec Room!</p>
-             <button onClick={onClose} className="bg-rec-orange text-white px-12 py-6 rounded-[32px] font-black italic uppercase text-2xl rec-card-shadow">
+             <p className="text-slate-400 font-bold max-w-md mt-4 mb-8 uppercase tracking-widest text-sm">Join hundreds of other players in the social hub of RecRoomWeb!</p>
+             <button onClick={() => { onTeleport([0, 5, 0]); onClose(); }} className="bg-rec-orange text-white px-12 py-6 rounded-[32px] font-black italic uppercase text-2xl rec-card-shadow">
                 TRAVEL NOW
              </button>
           </div>
@@ -236,6 +239,28 @@ export function WatchMenu({
               ))}
           </div>
         );
+      case 'mods':
+        return (
+          <div className="flex-1 space-y-4">
+             <h3 className="text-4xl font-black text-slate-800 italic uppercase mb-8">Experimental Mods</h3>
+             {[
+               { name: 'Low Gravity', desc: 'Jump like you are on the moon', active: false, color: '#38bdf8' },
+               { name: 'Speed Boost', desc: 'Run 2x faster than normal', active: true, color: '#f87171' },
+               { name: 'Night Mode', desc: 'Darken the room for cozy vibes', active: false, color: '#818cf8' },
+               { name: 'Infinite Ink', desc: 'Never run out of Maker Pen ink', active: true, color: '#34d399' }
+             ].map((mod, i) => (
+                <div key={i} className="bg-white p-6 rounded-3xl border-b-6 border-slate-100 flex justify-between items-center">
+                   <div>
+                      <p className="font-black italic uppercase text-xl text-slate-800">{mod.name}</p>
+                      <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">{mod.desc}</p>
+                   </div>
+                   <div className={`w-16 h-8 rounded-full p-1 cursor-pointer transition-colors ${mod.active ? 'bg-rec-purple' : 'bg-slate-200'}`}>
+                      <div className={`w-6 h-6 bg-white rounded-full transition-transform ${mod.active ? 'translate-x-8' : 'translate-x-0'}`} />
+                   </div>
+                </div>
+             ))}
+          </div>
+        );
       default:
         return (
           <div className="grid grid-cols-4 gap-6">
@@ -247,8 +272,9 @@ export function WatchMenu({
             <MenuButton icon={<Users size={56} />} label="People" color="#C2185B" onClick={() => setActiveTab('people')} />
             <MenuButton icon={<Mail size={56} />} label="Messages" color="#0288D1" onClick={() => setActiveTab('messages')} />
             <MenuButton icon={<CheckSquare size={56} />} label="Challenges" color="#FBC02D" onClick={() => setActiveTab('challenges')} />
-            <MenuButton icon={<Briefcase size={56} />} label="Backpack" color="#E64A19" onClick={() => setActiveTab('backpack')} />
+            <MenuButton icon={<Cpu size={56} />} label="Mods" color="#4F46E5" onClick={() => setActiveTab('mods')} />
             
+            <MenuButton icon={<Briefcase size={56} />} label="Backpack" color="#E64A19" onClick={() => setActiveTab('backpack')} />
             <MenuButton icon={<Users2 size={56} />} label="Clubs" color="#8E24AA" onClick={() => setActiveTab('clubs')} />
             <MenuButton icon={<ShoppingBag size={56} />} label="Store" color="#0097A7" onClick={() => setActiveTab('store')} />
             <MenuButton icon={<Building2 size={56} />} label="Rec Center" color="#D32F2F" onClick={() => setActiveTab('rec-center')} />

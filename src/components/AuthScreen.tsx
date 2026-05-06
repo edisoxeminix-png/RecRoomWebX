@@ -45,7 +45,7 @@ export function AuthScreen({ onSuccess }: AuthScreenProps) {
         </div>
         
         <h1 className="text-7xl font-black text-white mb-4 tracking-tighter uppercase italic leading-none drop-shadow-2xl">
-          Rec Room <span className="text-rec-blue font-mono not-italic block mt-2 text-3xl tracking-widest opacity-80">WEB EDITION</span>
+          RecRoomWeb <span className="text-rec-blue font-mono not-italic block mt-2 text-3xl tracking-widest opacity-80">EDITION</span>
         </h1>
         <p className="text-white/40 mb-12 font-black uppercase tracking-[0.4em] text-xs">
           Comunidad Social & Juegos VR
